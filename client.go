@@ -32,7 +32,7 @@ type ErrorPayload struct {
 }
 
 type Error struct {
-	Code        string `json:"code"`
+	Code        int    `json:"code"`
 	Description string `json:"description"`
 	Message     string `json:"message"`
 }
