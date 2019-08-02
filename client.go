@@ -7,7 +7,7 @@ import (
 	"io"
 	"net/http"
 
-	astihttp "github.com/asticode/go-astitools/http"
+	"github.com/asticode/go-astitools/http"
 	"github.com/pkg/errors"
 )
 
@@ -32,7 +32,7 @@ type ErrorPayload struct {
 }
 
 type Error struct {
-	Code        int    `json:"code"`
+	Code        string    `json:"code"`
 	Description string `json:"description"`
 	Message     string `json:"message"`
 }
