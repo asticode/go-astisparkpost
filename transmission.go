@@ -1,9 +1,8 @@
 package astisparkpost
 
 import (
+	"fmt"
 	"net/http"
-
-	"github.com/pkg/errors"
 )
 
 type Transmission struct {
@@ -74,7 +73,7 @@ type TransmissionResults struct {
 func (c *Client) CreateTransmission(t Transmission) (r TransmissionResults, err error) {
 	// Send
 	if err = c.send(http.MethodPost, "/v1/transmissions", t, &r); err != nil {
-		err = errors.Wrap(err, "astisparkpost: sending failed")
+		err = fmt.Errorf("astisparkpost: sending failed: %w", err)
 		return
 	}
 	return

@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"github.com/asticode/go-astikit"
-	"github.com/pkg/errors"
 )
 
 const baseURL = "https://api.eu.sparkpost.com/api"
@@ -45,7 +44,7 @@ func (c *Client) send(method, url string, reqPayload, respPayload interface{}) (
 		// Marshal
 		buf := &bytes.Buffer{}
 		if err = json.NewEncoder(buf).Encode(reqPayload); err != nil {
-			err = errors.Wrapf(err, "astisparkpost: marshaling payload of %s request to %s failed", method, url)
+			err = fmt.Errorf("astisparkpost: marshaling payload of %s request to %s failed: %w", method, url, err)
 			return
 		}
 
@@ -56,7 +55,7 @@ func (c *Client) send(method, url string, reqPayload, respPayload interface{}) (
 	// Create request
 	var req *http.Request
 	if req, err = http.NewRequest(method, baseURL+url, body); err != nil {
-		err = errors.Wrapf(err, "astisparkpost: creating %s request to %s failed", method, url)
+		err = fmt.Errorf("astisparkpost: creating %s request to %s failed: %w", method, url, err)
 		return
 	}
 
@@ -67,7 +66,7 @@ func (c *Client) send(method, url string, reqPayload, respPayload interface{}) (
 	// Send
 	var resp *http.Response
 	if resp, err = c.s.Send(req); err != nil {
-		err = errors.Wrapf(err, "astisparkpost: sending %s request to %s failed", req.Method, req.URL.Path)
+		err = fmt.Errorf("astisparkpost: sending %s request to %s failed: %w", req.Method, req.URL.Path, err)
 		return
 	}
 	defer resp.Body.Close()
@@ -77,7 +76,7 @@ func (c *Client) send(method, url string, reqPayload, respPayload interface{}) (
 		// Unmarshal
 		var e ErrorPayload
 		if err = json.NewDecoder(resp.Body).Decode(&e); err != nil {
-			err = errors.Wrap(err, "astisparkpost: unmarshaling error failed")
+			err = fmt.Errorf("astisparkpost: unmarshaling error failed: %w", err)
 			return
 		}
 
@@ -90,7 +89,7 @@ func (c *Client) send(method, url string, reqPayload, respPayload interface{}) (
 	if respPayload != nil {
 		// Unmarshal
 		if err = json.NewDecoder(resp.Body).Decode(&respPayload); err != nil {
-			err = errors.Wrap(err, "astisparkpost: unmarshaling response failed")
+			err = fmt.Errorf("astisparkpost: unmarshaling response failed: %w", err)
 			return
 		}
 	}
