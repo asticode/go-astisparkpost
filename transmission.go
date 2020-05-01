@@ -42,6 +42,7 @@ type InlineContent struct {
 	InlineImages []InlineImage `json:"inline_images,omitempty"`
 	ReplyTo      string        `json:"reply_to,omitempty"`
 	Subject      string        `json:"subject,omitempty"`
+	TemplateID   string        `json:"template_id,omitempty"`
 	Text         string        `json:"text,omitempty"`
 }
 
