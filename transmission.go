@@ -50,7 +50,7 @@ type Headers map[string]string
 
 type Metadata map[string]string
 
-type SubstitutionData map[string]string
+type SubstitutionData map[string]interface{}
 
 type Attachment struct {
 	Data string `json:"data,omitempty"`
