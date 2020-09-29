@@ -17,7 +17,8 @@ type Transmission struct {
 }
 
 type TransmissionOptions struct {
-	Sandbox bool `json:"sandbox,omitempty"`
+	ClickTracking *bool `json:"click_tracking,omitempty"`
+	Sandbox       *bool `json:"sandbox,omitempty"`
 }
 
 type Recipient struct {
